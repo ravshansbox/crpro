@@ -1,0 +1,19 @@
+{
+  "name": "cloudretail",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "api::docker:compose:up": "npm -w apps/api run docker:compose:up",
+    "api::prisma:db:push": "npm -w apps/api run prisma:db:push",
+    "api::prisma:generate": "npm -w apps/api run prisma:generate",
+    "api::prisma:generate:watch": "npm -w apps/api run prisma:generate:watch",
+    "api::start": "npm -w apps/api run start",
+    "ui::start": "npm -w apps/ui run start",
+    "start": "npm-run-all -s api::prisma:db:push -p api::prisma:generate:watch api::start ui::start"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

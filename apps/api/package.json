@@ -1,0 +1,88 @@
+{
+  "name": "@cloudretail/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "babel --extensions .js,.ts --ignore node_modules --out-dir dist .",
+    "docker:compose:up": "docker compose up",
+    "format": "prettier . --write",
+    "lint": "DEBUG=eslint:cli-engine eslint . --fix",
+    "postinstall": "npm run prisma:generate",
+    "prisma:db:push": "prisma db push",
+    "prisma:generate:watch": "prisma generate --watch",
+    "prisma:generate": "prisma generate",
+    "start": "nodemon -r dotenv/config src"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "@trpc/server": "^10.45.2",
+    "prisma": "^5.11.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.3",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-typescript": "^7.24.1",
+    "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-prisma": "^5.0.0",
+    "typescript": "^5.4.3"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "root": true,
+    "rules": {
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          "fixStyle": "inline-type-imports"
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }
+      ]
+    }
+  },
+  "nodemonConfig": {
+    "exec": "babel-node --extensions .ts",
+    "ext": "ts",
+    "watch": [
+      "src"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}

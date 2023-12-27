@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PermissionType {
+  owner
+  manager
+  employee
+}
+
+model User {
+  id       String @id @db.Uuid
+  username String
+  password String
+
+  access_tokens AccessToken[] @relation("access_tokens__user_id")
+  permissions   Permission[]  @relation("permissions__user_id")
+
+  @@unique([username])
+  @@map("users")
+}
+
+model AccessToken {
+  id      String @id @db.Uuid
+  user_id String @db.Uuid
+
+  user User @relation("access_tokens__user_id", fields: [user_id], references: [id])
+
+  @@map("access_tokens")
+}
+
+model Company {
+  id   String @id @db.Uuid
+  name String
+
+  permissions     Permission[]    @relation("permissions__company_id")
+  units           Unit[]          @relation("units__company_id")
+  products        Product[]       @relation("products__company_id")
+  customers       Customer[]      @relation("customers__company_id")
+  invoices        Invoice[]       @relation("invoices__company_id")
+  invoice_details InvoiceDetail[] @relation("invoice_details__company_id")
+  product_units   ProductUnit[]   @relation("products_units__company_id")
+
+  @@unique([name])
+  @@map("companies")
+}
+
+model Permission {
+  id         String         @id @db.Uuid
+  company_id String         @db.Uuid
+  user_id    String         @db.Uuid
+  type       PermissionType
+
+  company Company @relation("permissions__company_id", fields: [company_id], references: [id])
+  user    User    @relation("permissions__user_id", fields: [user_id], references: [id])
+
+  @@unique([company_id, user_id])
+  @@map("permissions")
+}
+
+model Unit {
+  id         String @id @db.Uuid
+  company_id String @db.Uuid
+  name       String
+
+  company Company @relation("units__company_id", fields: [company_id], references: [id])
+
+  product_units ProductUnit[] @relation("products_units__unit_id")
+
+  @@unique([company_id, name])
+  @@map("units")
+}
+
+model Product {
+  id         String @id @db.Uuid
+  company_id String @db.Uuid
+  name       String
+
+  company Company @relation("products__company_id", fields: [company_id], references: [id])
+
+  invoice_details InvoiceDetail[] @relation("invoice_details__product_id")
+  product_units   ProductUnit[]   @relation("products_units__product_id")
+
+  @@unique([company_id, name])
+  @@map("products")
+}
+
+model ProductUnit {
+  id         String @id @db.Uuid
+  company_id String @db.Uuid
+  product_id String @db.Uuid
+  unit_id    String @db.Uuid
+  amount     Int
+
+  company Company @relation("products_units__company_id", fields: [company_id], references: [id])
+  product Product @relation("products_units__product_id", fields: [product_id], references: [id])
+  unit    Unit    @relation("products_units__unit_id", fields: [unit_id], references: [id])
+
+  @@unique([company_id, product_id, unit_id])
+  @@map("products_units")
+}
+
+model Customer {
+  id         String @id @db.Uuid
+  company_id String @db.Uuid
+  name       String
+
+  company Company @relation("customers__company_id", fields: [company_id], references: [id])
+
+  invoices Invoice[] @relation("invoices__customer_id")
+
+  @@unique([company_id, name])
+  @@map("customers")
+}
+
+model Invoice {
+  id          String   @id @db.Uuid
+  company_id  String   @db.Uuid
+  customer_id String   @db.Uuid
+  due_date    DateTime @db.Date
+
+  company  Company  @relation("invoices__company_id", fields: [company_id], references: [id])
+  customer Customer @relation("invoices__customer_id", fields: [customer_id], references: [id])
+
+  invoice_details InvoiceDetail[] @relation("invoice_details__invoice_id")
+
+  @@map("invoices")
+}
+
+model InvoiceDetail {
+  id           String   @id @db.Uuid
+  created_at   DateTime @db.Timestamp()
+  company_id   String   @db.Uuid
+  invoice_id   String   @db.Uuid
+  product_id   String   @db.Uuid
+  datamatrix   String
+  is_container Boolean
+  container_id String?  @db.Uuid
+  is_closed    Boolean?
+  item_count   Int?
+
+  company   Company        @relation("invoice_details__company_id", fields: [company_id], references: [id])
+  invoice   Invoice        @relation("invoice_details__invoice_id", fields: [invoice_id], references: [id])
+  product   Product        @relation("invoice_details__product_id", fields: [product_id], references: [id])
+  container InvoiceDetail? @relation("invoice_details__container_id", fields: [container_id], references: [id])
+
+  invoice_details InvoiceDetail[] @relation("invoice_details__container_id")
+
+  @@map("invoice_details")
+}
