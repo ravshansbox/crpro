@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { addHours } from 'date-fns';
 import { z } from 'zod';
 import { prismaClient } from '../../prismaClient';
@@ -12,7 +13,7 @@ export const createToken = trpc.procedure
     });
     const hashedPassword = hashPassword(input.password);
     if (hashedPassword !== user.password) {
-      throw new Error();
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
     const {
       user: { password: _password, ...userWithoutPassword },

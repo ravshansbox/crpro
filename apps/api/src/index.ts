@@ -2,9 +2,10 @@ import { createHTTPHandler } from '@trpc/server/adapters/standalone';
 import { createServer } from 'node:http';
 import { appRouter } from './appRouter';
 import { HTTP_PORT } from './constants';
+import { createContext } from './trpc';
 import { seedDatabase } from './utils';
 
-const requestHandler = createHTTPHandler({ router: appRouter });
+const requestHandler = createHTTPHandler({ createContext, router: appRouter });
 
 const server = createServer();
 

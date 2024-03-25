@@ -1,9 +1,9 @@
 import {
-  FC,
-  PropsWithChildren,
   createContext,
   useContext,
   useState,
+  type FC,
+  type PropsWithChildren,
 } from 'react';
 
 type ContextValue = {

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "babel --extensions .js,.ts --ignore node_modules --out-dir dist .",
     "docker:compose:up": "docker compose up",
+    "lint": "eslint --fix .",
     "prisma:db:push": "prisma db push",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",

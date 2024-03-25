@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "lint": "eslint --fix .",
     "start": "vite"
   },
   "devDependencies": {

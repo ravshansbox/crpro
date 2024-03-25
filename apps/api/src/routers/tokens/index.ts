@@ -3,7 +3,7 @@ import { createToken } from './createToken';
 import { deleteToken } from './deleteToken';
 import { fetchToken } from './fetchToken';
 
-export const tokenRouter = trpc.router({
+export default trpc.router({
   createToken,
   fetchToken,
   deleteToken,
