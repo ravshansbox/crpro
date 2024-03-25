@@ -1,8 +1,10 @@
-import { tokenRouter } from './routers/tokens';
+import companies from './routers/companies';
+import tokens from './routers/tokens';
 import { trpc } from './trpc';
 
 export const appRouter = trpc.router({
-  tokens: tokenRouter,
+  companies,
+  tokens,
 });
 
 export type AppRouter = typeof appRouter;

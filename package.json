@@ -6,12 +6,15 @@
   ],
   "scripts": {
     "api:docker:compose:up": "npm -w apps/api run docker:compose:up",
+    "api:lint": "npm -w apps/api run lint",
     "api:prisma:generate": "npm -w apps/api run prisma:generate",
     "api:prisma:studio": "npm -w apps/api run prisma:studio",
     "api:start": "npm -w apps/api run start",
     "format": "prettier --write .",
+    "lint": "npm-run-all -p api:lint ui:lint",
     "prepare": "husky",
     "start": "npm-run-all -p api:start ui:start",
+    "ui:lint": "npm -w apps/ui run lint",
     "ui:start": "npm -w apps/ui run start"
   },
   "devDependencies": {

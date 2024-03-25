@@ -5,6 +5,7 @@
   "scripts": {
     "build": "babel --extensions .js,.ts --ignore node_modules --out-dir dist .",
     "docker:compose:up": "docker compose up",
+    "lint": "eslint --fix .",
     "prisma:db:push": "prisma db push",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
@@ -13,7 +14,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.11.0",
-    "@trpc/server": "next",
+    "@trpc/server": "^11.0.0-next.324",
     "date-fns": "^3.6.0",
     "zod": "^3.22.4"
   },
@@ -24,8 +25,8 @@
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
     "@types/node": "^20.11.30",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "@typescript-eslint/parser": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
