@@ -36,9 +36,11 @@ export const Button = w.button(
         lg: 'px-5 py-4 rounded-lg text-lg',
         xl: 'px-6 py-5 rounded-lg text-xl',
       },
+      full: (enabled: boolean) => (enabled ? 'w-full' : ''),
     },
     defaultVariants: {
       size: 'base',
+      full: false,
     },
   },
 );

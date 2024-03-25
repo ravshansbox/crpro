@@ -5,6 +5,6 @@ import { fetchToken } from './fetchToken';
 
 export default trpc.router({
   createToken,
-  fetchToken,
   deleteToken,
+  fetchToken,
 });

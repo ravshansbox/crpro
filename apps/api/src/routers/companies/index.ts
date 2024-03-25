@@ -5,8 +5,8 @@ import { fetchMany } from './fetchMany';
 import { updateOne } from './updateOne';
 
 export default trpc.router({
-  fetchMany,
   createOne,
-  updateOne,
   deleteOne,
+  fetchMany,
+  updateOne,
 });

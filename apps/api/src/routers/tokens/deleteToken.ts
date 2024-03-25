@@ -4,7 +4,7 @@ import { trpc } from '../../trpc';
 
 export const deleteToken = trpc.procedure
   .input(z.object({ id: z.string() }))
-  .query(({ input }) => {
+  .mutation(({ input }) => {
     return prismaClient.token.delete({
       where: { id: input.id },
     });
